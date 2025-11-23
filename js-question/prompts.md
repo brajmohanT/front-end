@@ -12,3 +12,7 @@ Set B: 20 medium-level tasks
 
 Provide only the problem statements for both sets, with headers.
 Do NOT provide solutions.
+
+
+### Question [Link](https://chatgpt.com/share/691e82e7-ad3c-8013-8f7f-984add35159b)
+*Do the last 15 questions only

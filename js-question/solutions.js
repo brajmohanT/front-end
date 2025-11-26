@@ -59,3 +59,25 @@ TASK:2 :: Implement a deep-clone function for objects and arrays that does not u
 */
 
 /* Go for nested object example of shallow copy vs Deep copy. */
+  
+export const deepClone = (obj)=>{
+  if(obj===null || typeof obj !=='object'){
+    return obj;
+  }
+  
+  if(Array.isArray(obj)){
+    const copy = []
+    for (let i = 0; i < obj.length;i++){
+      copy[i] = deepClone(obj[i])
+    }
+    return copy
+  }
+  
+  const copy = {}
+  for (const key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)){
+      copy[key] = deepClone(obj[key])
+    }
+  }
+  return copy
+}

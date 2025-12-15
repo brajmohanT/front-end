@@ -81,3 +81,80 @@ export const deepClone = (obj)=>{
   }
   return copy
 }
+// INFO: WHat is prototype in JS. and what this thing does Object.prototype.hasOwnProperty.call(obj, key). Recursively traversing complext objects.
+
+
+// TASK: 3 : Convert all object keys (including nested ones) to camelCase using JavaScript string utilities.
+
+const camelCaseString = (str)=>{
+  return str
+    .replace(/[-_ ]+([a-zA-Z])/g, (_, chr) => chr.toUpperCase())
+          .replace(/^[A-Z]/, chr => chr.toLowerCase());
+}
+
+export const camelCaseObjKeys = (obj)=>{
+  if(Array.isArray(obj)){
+    return obj.map((item)=>camelCaseObjKeys(item))
+  }
+  
+  if(obj!==null && typeof(obj)==='object'){
+    return Object.fromEntries(
+      Object.entries(obj).map(([key,value])=>
+        [camelCaseString(key),camelCaseObjKeys(value)]
+      )
+    )
+  }
+  
+  return obj;
+}
+
+//INFO: read about the object.entries(obj) & object.fromEntries(arr), read about map. whats happening in line 102/3
+
+
+// Task: 4: Flatten a deeply nested object into a single-level object using dot-notation paths (a.b.c = value).
+
+
+
+
+// "use client";
+
+import { useEffect } from "react";
+
+export default function LazyGTM() {
+  useEffect(() => {
+    let loaded = false;
+
+    function loadGTM() {
+      if (loaded) return;
+      loaded = true;
+
+      // Create dataLayer if missing
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: "gtm.js",
+        "gtm.start": Date.now(),
+      });
+
+      const script = document.createElement("script");
+      script.async = true;
+      script.src = "https://www.googletagmanager.com/gtm.js?id=GTM-XXXXXXX";
+      document.head.appendChild(script);
+    }
+
+    // 1. Load when browser is idle
+    if ("requestIdleCallback" in window) {
+      requestIdleCallback(loadGTM, { timeout: 2000 });
+    } else {
+      setTimeout(loadGTM, 1500);
+    }
+
+    // 2. Load on first user interaction
+    ["scroll", "mousemove", "touchstart", "keydown", "click"].forEach((evt) => {
+      window.addEventListener(evt, loadGTM, { once: true, passive: true });
+    });
+  }, []);
+
+  return null;
+}
+
+// After chalideren in app.js ::  
